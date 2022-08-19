@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch API SandBox</title>
+</head>
+<body>
+    <button id="getText">Get Text</button>
+     <button id="user">Get JSON</button>
+    <button id="posts">Get API</button> 
+    <hr>
+    <div id="output"></div>
+    <script>
+        document.getElementById('getText').addEventListener('click', getText)
+        document.getElementById('user').addEventListener('click', getUser)
+        document.getElementById('posts').addEventListener('click', getPost)
+       var bi =  document.getElementById('user');
+       bi.style.backgroundcolor = 'green';
+
+        function getText(){
+            // fetch ('sample.txt')
+            // .then(function(res){
+            //     return res.text();
+            // })
+            // .then (function(data){
+            //     document.getElementById('output').innerHTML = data;
+            // })
+            // .catch((err)=> console.log(err))
+
+            fetch('sample.txt')
+            .then((res)=>res.text())
+            .then((data) => {
+                document.getElementById('output').innerHTML = data;
+            })
+        }
+
+        function getUser(){
+            fetch ('user.json')
+            .then((res) => res.json())
+            .then((data) => {
+                let output = '<h2>USER</h2>';
+                data.forEach(function(user){
+                    output += `
+                    <ul>
+                      <li> ID : ${user.id}</li>  
+                      <li> Name : ${user.name} </li>  
+                      <li> Email: ${user.email} </li>  
+                    </ul>
+                    `;
+                });
+                document.getElementById('output').innerHTML = output;
+            })
+            
+        }
+
+        function getPost(){
+        fetch('https://jsonplaceholder.typicode.com/posts')
+  .then((res) => res.json())
+//   .then(json => console.log(json))
+  .then((data) => {
+                let output = '<h2>Post</h2>';
+                data.forEach(function(post){
+                    output += `
+                    <div>
+                      <h3>  ${post.title}</h3>  
+                      <p>  ${post.body} </p>  
+                     
+                    </div>
+                    `;
+                });
+                document.getElementById('output').innerHTML = output;
+            })
+        }
+        Notification.requestPermission() 
+        function notify(){
+       var notification = new Notification('Subscribe to my youtube cchannel', {
+            icon:'http://carnes.cc./jsnuggets_avatar.jpg',
+            body: "Hey",
+        });
+        notification.onClick = function (){
+            window.open("http://carnes.cc");
+        };
+        setTimeout(notification.close.bind(notification),3000);
+    }
+    notify();
+        </script>
+</body>
+</html> 
